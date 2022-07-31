@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('preUsers', function (Blueprint $table) {
           $table->increments('id');
-          $table->char('token',64)->nullable();
-          $table->string('email', 255)->nullable();
-          $table->timestamp('created_at')->nullable();
+          $table->char('token',64);
+          $table->string('email', 255);
+          $table->timestamp('created_at');
         });
     }
 

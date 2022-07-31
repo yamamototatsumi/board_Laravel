@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   app:
-    build: ./infra/php
+    build: ./config/php
     volumes:
       - ./src:/data
 
@@ -11,12 +11,12 @@ services:
       - 8080:80
     volumes:
       - ./src:/data
-      - ./infra/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./config/nginx/default.conf:/etc/nginx/conf.d/default.conf
     working_dir: /data
 
   # 追記
   db:
-    build: ./infra/mysql
+    build: ./config/mysql
     volumes:
       - db-store:/var/lib/mysql
 

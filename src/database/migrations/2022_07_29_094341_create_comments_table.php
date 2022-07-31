@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
           $table->increments('id');
-          $table->char('user_id',64)->nullable();
-          $table->integer('article_id')->nullable();
-          $table->string('content', 255)->nullable();
-          $table->timestamp('created_at')->nullable();
-          $table->timestamp('updated_at');
+          $table->char('user_id',64);
+          $table->integer('article_id');
+          $table->string('content', 255);
+          $table->timestamp('created_at');
+          $table->timestamp('updated_at')->nullable();
           $table->softDeletes();
         });
     }
