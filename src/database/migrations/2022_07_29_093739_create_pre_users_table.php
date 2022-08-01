@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('preUsers', function (Blueprint $table) {
+        Schema::create('pre_users', function (Blueprint $table) {
           $table->increments('id');
           $table->char('token',64);
           $table->string('email', 255);
-          $table->timestamp('created_at');
+          $table->timestamps();
         });
     }
 

@@ -1,0 +1,37 @@
+.row1{
+  font-size: 30px;
+}
+.articleBody{
+  border: solid black;
+  text-align: center;
+}
+.kiji{
+  text-align: center;
+  margin: 2em;
+  border: solid black;
+}
+
+.p{
+  font-weight: bold;
+}
+
+.comment{
+text-align: center;
+margin: 1em;
+border: solid black;
+padding: 1em;
+}
+
+textarea {
+  resize: none;
+  width:60%;
+  height: 8em;
+}
+
+.table{
+  border: solid 1px;
+}
+
+.form_wrap{
+  margin: 5em;
+}
