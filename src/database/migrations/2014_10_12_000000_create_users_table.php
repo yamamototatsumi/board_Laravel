@@ -13,18 +13,19 @@ return new class extends Migration
      */
     public function up()
     {
-      Schema::create('users', function (Blueprint $table) {
-        $table->increments('id');
-        $table->char('user_id',64);
-        $table->string('email', 255);
-        $table->string('pass', 255);
-        $table->string('name', 255);
-        $table->timestamp('created_at');
-        $table->timestamp('updated_at')->nullable();
-        $table->softDeletes();
-        $table->tinyInteger('admin',)->default(0);
-      });
-  }
+        Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->char('user_id',64)->unique()->nullable();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
+            // $table->foreignId('current_team_id')->nullable();
+            $table->string('profile_photo_path', 2048)->nullable();
+            $table->timestamps();
+        });
+    }
 
     /**
      * Reverse the migrations.
@@ -33,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('usersDefault');
+        Schema::dropIfExists('users');
     }
 };

@@ -14,14 +14,13 @@ return new class extends Migration
     public function up()
     {
       Schema::create('articles', function (Blueprint $table) {
-        $table->increments('id');
-        $table->char('user_id',64);
+        $table->id();
+        $table->char('user_id',64)->references('user_id')->on('users')->cascadeOnUpdate()->cascadeOnDelete();
         $table->string('title', 255);
         $table->string('content', 255);
-        $table->timestamp('created_at');
-        $table->timestamp('updated_at')->nullable();
+        $table->timestamps();
         $table->softDeletes();
-        });
+      });
     }
 
     /**

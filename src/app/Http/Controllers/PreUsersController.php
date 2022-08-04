@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\PreUser;
 use Illuminate\Support\Facades\Mail;
-use Public\Language;
+use App\Consts\Success;
+use App\Consts\Error;
+use App\Consts\Link;
 
 
 class PreUsersController extends Controller
@@ -17,12 +19,12 @@ class PreUsersController extends Controller
 
   public function getSignUp()
   {
-      return view('pre_users/signup');
+      return view('pages/pre_users/signup');
   }
 
   public function getTopPage()
   {
-      return view('index');
+      return view('pages/index');
   }
 
   public function insert(Request $request)
@@ -30,19 +32,19 @@ class PreUsersController extends Controller
     $email=$this->models->check($request->input('email'));
     if(!$email){
       $userId = str()->uuid();
-      $Preuser = $this->models->insert($userId,$request->input('email'));
-      $url = $this->sendmail($userId);
-      $msg = "メールの送信が行われました";
+      $this->models->insert($userId,$request->input('email'));
+      $this->sendmail($userId);
+      var_dump($userId);
+      return view('pages/pre_users/insert',['data'=>Success::MAIL,'userId'=>$userId]);
     }else{
-      $msg="miss";
+      return view('pages/results/error',['data'=>Error::ALRADY,'link'=>Link::TOP]);
     }
-    return view('pre_users/register',['msg'=>$msg,'userId'=>$userId]);
   }
 
   public function sendMail($userId)
   {
       $email = 'hello@example.com';
-      Mail::send('pre_users/mail', [
+      Mail::send('pages/pre_users/mail', [
           'userId' => $userId
       ], function ($message) use ($email) {
           $message->to($email)

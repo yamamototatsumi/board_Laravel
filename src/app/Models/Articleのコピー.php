@@ -19,6 +19,7 @@ class ArticleModels extends ArticleModelConstruct{
     $stmt->bindParam(':content', $main, PDO::PARAM_STR);
     $this->trans($sql, $stmt);
   }
+  
   public function selectArticleWithUser($id):array
   {
     $sql = "SELECT users.name AS userName,
@@ -35,6 +36,7 @@ class ArticleModels extends ArticleModelConstruct{
     $userInfo = $stmt->fetch(PDO::FETCH_BOTH);
     return $userInfo;
   }
+
   public function selectArticle(string $id):array
   {
     $sql = "SELECT * FROM articles WHERE id ='$id'";
@@ -42,12 +44,14 @@ class ArticleModels extends ArticleModelConstruct{
     $member = $stmt->fetch(PDO::FETCH_ASSOC);
     return $member;
   }
+  
   public function deleteArticle(string $id)
   { 
     $sql = "UPDATE articles SET deleted_at = now() WHERE id ='$id'";
     $stmt = $this->dbh->prepare($sql);
     $this->trans($sql, $stmt);
   }
+
   public function pageCount() :array
   {
     $count = $this->dbh->prepare('SELECT COUNT(id) AS count FROM articles where deleted_at is NULL');
@@ -55,6 +59,7 @@ class ArticleModels extends ArticleModelConstruct{
     $total_count = $count->fetch(PDO::FETCH_ASSOC);
     return $total_count;
   }
+
   public function adminPageCount() :array
   {
     $count = $this->dbh->prepare('SELECT COUNT(id) AS count FROM articles');
@@ -62,6 +67,7 @@ class ArticleModels extends ArticleModelConstruct{
     $total_count = $count->fetch(PDO::FETCH_ASSOC);
     return $total_count;
   }
+  
   public function pagerSystem(int $now, int $max_view) :array
   {
     $stmt = $this->dbh->prepare("SELECT articles.title,articles.content,articles.created_at,users.name,articles.id,articles.deleted_at
