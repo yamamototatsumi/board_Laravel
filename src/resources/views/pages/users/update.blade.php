@@ -13,7 +13,7 @@
   <h1>ユーザー情報変更</h1>
   <p>現在のユーザー名</p> 
   <?PHP 
-      echo $data["name"]; 
+      echo $data; 
   ?>
   <p>新しいユーザー名:</p>
   <input type='text' id="newname" name='name' class="ca_inputform"><br>

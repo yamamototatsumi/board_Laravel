@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
-use App\Http\Controllers\PreUsersController;
 use App\Http\Controllers\ArticlesController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -18,37 +18,21 @@ use App\Http\Controllers\ArticlesController;
 
 Route::get('/',[UsersController::class, 'getTopPage']);
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['verified','auth'])->name('dashboard');
+Route::get('/dashboard', [UsersController::class, 'getMyPage'])
+->middleware(['verified','auth'])->name('dashboard');
+
+Route::get('/users/update',[UsersController::class, 'getUpdate'])
+->name('users/update');
+
+Route::patch('/users/update',[UsersController::class, 'update'])
+->name('users/update');
 
 
+Route::get('/articles/index',[ArticlesController::class, 'index'])
+->name('articles/index');
 
+Route::get('/', [UsersController::class, 'getTopPage']);
 
-Route::get('/users/mypage', [UsersController::class, 'getMyPage']);
-
-Route::get('/articles/index',[ArticlesController::class, 'index']);
-
-// Route::get('/', [UsersController::class, 'getTopPage']);
-
-// Route::get('/users/login',[UsersController::class, 'getLogin']);
-
-// Route::get('/preUsers/signUp',[PreUsersController::class, 'getSignUp']);
-
-// Route::get('/users/insert/{id?}',[UsersController::class, 'getInsert']);
-Route::get('/articles/insert/',[ArticlesController::class, 'getInsert'])
-->middleware((['verified','auth']))->name('/articles/insert');
-
-// Route::post('/users/insert',[UsersController::class, 'insert']);
-
-// Route::post('/preUsers/signUp',[PreUsersController::class, 'insert']);
-Route::post('/articles/insert',[ArticlesController::class, 'insert']);
-
-
-
-
-
-// Route::get('/articles/index',[PreUsersController::class, 'getSignUp']);
 
 
 

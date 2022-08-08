@@ -9,17 +9,18 @@
 <div class="articleBody">
   <div class="articleOld"> 
     <p>タイトル</p>
-    <p><?php echo "<p class='p1'>".$this->data['title']."</p>";?></p><br>
-    <?php echo nl2br($this->data['content']);?>
+    <p class='p1'>{{$data->title}}</p><br>
+    <p>{{nl2br($data->content)}}</p>
   </div>
   <div class="hensyuu">
     <form action="updateArticle" method="POST">
+      @csrf
+      @method
       <label>タイトル：</label>
       <input type="text" name="title" id="title" class="articleform"><br>
       <label>　　内容:</label>
       <textarea name="content" id="main" class="articleform"></textarea><br>
-      <?php echo "<input type='hidden' name=id value=".$_GET['id'].">"; ?>
-      <input type="hidden" name="token" value="<?php echo htmlspecialchars($_SESSION['token']) ?>"></input>
+      <?php echo "<input type='hidden' name=id value=".$request->id.">"; ?>
       <input type="submit" value="編集する" id="submit" disabled>
     </form>
   </div>

@@ -19,13 +19,13 @@
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                  <x-nav-link :href="route('/articles/insert')" :active="request()->routeIs('dashboard')">
+                  <x-nav-link :href="route('articles/insert')" :active="request()->routeIs('dashboard')">
                       {{ __('新規投稿') }}
                   </x-nav-link>
               </div>
 
               <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                <x-nav-link :href="route('articles/index')" :active="request()->routeIs('dashboard')">
                     {{ __('投稿一覧') }}
                 </x-nav-link>
             </div>
@@ -57,6 +57,7 @@
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
                         </form>
+                        <x-dropdown-link :href="route('users/update')">アカウント編集</x-dropdown-link>
                     </x-slot>
                 </x-dropdown>
             </div>

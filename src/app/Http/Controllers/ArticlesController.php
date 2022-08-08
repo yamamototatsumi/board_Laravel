@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use App\Models\Comment;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Consts\Success;
 use App\Consts\Error;
 use App\Consts\Link;
+use Illuminate\Support\Facades\Auth;
 
 class ArticlesController extends Controller
 {
@@ -19,7 +21,6 @@ class ArticlesController extends Controller
 
   public function index() {
     $data = $this->models->PagerSystem();
-    var_dump("AAA");
     return view('pages/articles/index',['data'=>$data]);
   }
 
@@ -27,11 +28,22 @@ class ArticlesController extends Controller
     return view('pages/articles/insert');
   }
 
+    /**
+   * Handle an incoming registration request.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @return \Illuminate\Http\RedirectResponse
+   *
+   * @throws \Illuminate\Validation\ValidationException
+   */
+
   public function insert(Request $request) { 
     // $title = $this->inputCheck($_POST["title"]);
     // $content = $this->inputCheck($_POST["content"]);
-    var_dump(session('id'));
-    $this->models->insert($request->input('title'), session('id'), $request->input('content'));
+    $request->validate([
+      'title' => ['required', 'string', 'max:255'],
+      ]);
+    $this->models->insert($request->title, Auth::user()->user_id, $request->content);
     return view('pages/results/finish',['data'=>Success::REGISTER,'link'=>Link::ARTICLES]);
   }  
 
@@ -41,12 +53,19 @@ class ArticlesController extends Controller
   }
 
   public function detail(Request $request) {
-    $data = $this->models->detail($request->input('id'));
-    if(session('id') === $data->user_id){
-      $data["edit"] = "<a href='updateArticle?id=".$this->data['article_ID']."'>編集</a>";
-      $data["delete"] = "<a href='deleteArticle?id=".$this->data['article_ID']."'>削除</a>";
+    $data = $this->models->detail($request->id);
+    $data["stmt"]=$this->commentModels->create($request->id);
+    return view('pages/articles/detail',['data'=>$data,'request'=>$request]);
+  }
+
+  
+  public function getUpdate(Request $request) {
+    $data = $this->models->detail($request->id);
+    if($data->user_id === Auth::user()->user_id){
+    return view('pages/articles/update',['data'=>$data,'request'=>$request]);
+    }else{
+      $this->data["msg"] = $this->data["errorresult"];
+      require_once ( dirname(__FILE__) . $_ENV["USERS_DIRECTRY"] . "error.php"); 
     }
-    $data["stmt"]=$this->models->index($request->input('id'));
-    require_once ( dirname(__FILE__) . $_ENV["ARTICLES_DIRECTRY"] . "article_comment.php"); 
   }
 }

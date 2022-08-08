@@ -9,6 +9,9 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\ArticlesController;
+use App\Http\Controllers\CommentsController;
 use Illuminate\Support\Facades\Auth;
 
 Route::middleware('guest')->group(function () {
@@ -36,6 +39,9 @@ Route::middleware('guest')->group(function () {
                 ->name('password.update');
 });
 
+
+
+
 Route::middleware('auth')->group(function () {
     Route::get('verify-email', [EmailVerificationPromptController::class, '__invoke'])
                 ->name('verification.notice');
@@ -56,5 +62,19 @@ Route::middleware('auth')->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->name('logout');
 
+    Route::get('users/mypage', [UsersController::class, 'getMyPage']);
 
+    Route::post('articles/search',[ArticlesController::class, 'search']);
+
+    Route::get('articles/detail/{id?}',[ArticlesController::class, 'detail']);
+
+    Route::post('comments/insert',[CommentsController::class, 'insert'])
+      ->middleware((['verified']))->name('comments/insert');
+
+    Route::get('/articles/insert/',[ArticlesController::class, 'getInsert'])
+    ->middleware((['verified']))->name('articles/insert');
+
+    Route::get('/articles/update',[ArticlesController::class, 'getUpdate']);
+
+Route::post('/articles/insert',[ArticlesController::class, 'insert']);
 });
