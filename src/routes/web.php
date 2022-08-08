@@ -24,8 +24,6 @@ Route::get('/dashboard', [UsersController::class, 'getMyPage'])
 Route::get('/users/update',[UsersController::class, 'getUpdate'])
 ->name('users/update');
 
-Route::patch('/users/update',[UsersController::class, 'update'])
-->name('users/update');
 
 
 Route::get('/articles/index',[ArticlesController::class, 'index'])
@@ -35,5 +33,5 @@ Route::get('/', [UsersController::class, 'getTopPage']);
 
 
 
-
+//認証済みか判定するauth.phpへ飛ばす
 require __DIR__.'/auth.php';

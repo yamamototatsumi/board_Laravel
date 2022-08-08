@@ -38,8 +38,6 @@ class ArticlesController extends Controller
    */
 
   public function insert(Request $request) { 
-    // $title = $this->inputCheck($_POST["title"]);
-    // $content = $this->inputCheck($_POST["content"]);
     $request->validate([
       'title' => ['required', 'string', 'max:255'],
       ]);
@@ -54,18 +52,33 @@ class ArticlesController extends Controller
 
   public function detail(Request $request) {
     $data = $this->models->detail($request->id);
-    $data["stmt"]=$this->commentModels->create($request->id);
-    return view('pages/articles/detail',['data'=>$data,'request'=>$request]);
+    $comment=$this->commentModels->index($request->id);
+    return view('pages/articles/detail',['data'=>$data,'comment'=>$comment,'request'=>$request]);
   }
 
   
   public function getUpdate(Request $request) {
     $data = $this->models->detail($request->id);
-    if($data->user_id === Auth::user()->user_id){
+    // if($data->user_id === Auth::user()->user_id){
     return view('pages/articles/update',['data'=>$data,'request'=>$request]);
-    }else{
-      $this->data["msg"] = $this->data["errorresult"];
-      require_once ( dirname(__FILE__) . $_ENV["USERS_DIRECTRY"] . "error.php"); 
-    }
+    // }else{
+    //   $this->data["msg"] = $this->data["errorresult"];
+    //   require_once ( dirname(__FILE__) . $_ENV["USERS_DIRECTRY"] . "error.php"); 
+    // }
+  }
+
+  public function update(Request $request) {
+    $this->models->put($request->title, $request->content, $request->id);
+    return view('pages/results/finish',['data'=>Success::REGISTER,'link'=>Link::ARTICLES]);
+  }
+
+  public function delete(Request $request) {
+    $this->models->remove($request->id);
+    return view('pages/results/finish',['data'=>Success::REGISTER,'link'=>Link::ARTICLES]);
+  }
+
+  public function identification(Request $request) {
+    $data = $this->models->identification($request->id);
+    return $data;
   }
 }

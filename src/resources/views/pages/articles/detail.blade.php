@@ -16,34 +16,32 @@
   <p class ='row row5'>投稿日時:{{$data->created_at}}</p>
   @if(Auth::user()->user_id === $data->user_id)
     <a href='update?id={{$request->id}}'>編集</a>
-    <a href='delete?id="{{$request->id}}"'>削除</a>
-      {{$data->edit}}
-      {{$data->delete}}
+    <a href='delete?id={{$request->id}}'>削除</a>
   @endif
   </div>
 </div>
 <div class="comment">
 <p class="p">コメントする</p>
-<form method="POST" action="../comments/insert">
+<form method="POST" action={{ route('comments/insert') }}>
   @csrf
 <textarea name="main" id="main" required></textarea>
-<div class="AA"><input type='hidden' name='id' value="{{$request->id}}"></div>
+<div class="AA"><input type='hidden' name='id' value={{$request->id}}></div>
 <input type="submit" value="コメントする" id="submit">
 </form>
 </div>
 <div class="commentList">
 
-@foreach ($data->stmt as $row) 
-  @if(!(isset($row->deleted_at)))
+@foreach ($comment as $row) 
+  {{-- @if(!(isset($row->deleted_at))) --}}
     <div class= 'kiji'><p class ='row row2'>コメント:{{nl2br($row->content)}} </p>
     <p class ='row row4'>投稿者:{{$row->name}}</p>
     <p class ='row row5'>投稿日時":{{$row->created_at}}</p>
     @if(Auth::user()->user_id === $row['user_id'])
-      <a href='../updateComment?id={{$row->id}}'>編集</a>
-      <a href='/../deleteComment?id={{$row->id}}'>削除</a>
+      <a href='../comments/update?id={{$row->id}}'>編集</a>
+      <a href='/../comments/delete?id={{$row->id}}'>削除</a>
     @endif
     </div>
-  @endif
+  {{-- @endif --}}
 @endforeach
 </div>
 

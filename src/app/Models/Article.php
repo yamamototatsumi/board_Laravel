@@ -4,10 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Article extends Model
 {
     use HasFactory;
+    use SoftDeletes;
+
+    protected $dates = ['deleted_at'];
     protected $fillable = ['user_id', 'title', 'content'];
   
     public function insert(string $title, $id, string $content){
@@ -47,4 +51,17 @@ class Article extends Model
     return $data;
   }
 
+  public function put(string $title, string $content, string $id){
+    Article::where('id',$id)
+    ->update(['title'=>$title,'content'=>$content]);
+  }
+
+  public function remove(string $id){
+    Article::where('id',$id)->delete();
+  }
+
+  public function identification(string $id) :string{
+    $data = Article::where('id',$id)->first('user_id');
+    return $data;
+  }
 }

@@ -43,7 +43,8 @@ Route::middleware('guest')->group(function () {
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('verify-email', [EmailVerificationPromptController::class, '__invoke'])
+
+  Route::get('verify-email', [EmailVerificationPromptController::class, '__invoke'])
                 ->name('verification.notice');
 
     Route::get('verify-email/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
@@ -76,5 +77,24 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/articles/update',[ArticlesController::class, 'getUpdate']);
 
-Route::post('/articles/insert',[ArticlesController::class, 'insert']);
+    Route::patch('/users/update',[UsersController::class, 'update'])
+    ->name('users/update');
+
+    Route::patch('/articles/update',[ArticlesController::class, 'update'])
+    ->name('articles/update');
+
+    Route::post('/articles/insert',[ArticlesController::class, 'insert']);
+
+    Route::get('/articles/delete',[ArticlesController::class, 'delete'])
+    ->name('articles/delete');
+
+    Route::get('/comments/update',[CommentsController::class, 'getUpdate'])
+    ->name('comments/delete');
+
+    Route::get('/comments/delete',[CommentsController::class, 'delete'])
+    ->name('comments/delete');
+
+    Route::patch('comments/update',[CommentsController::class, 'update'])
+    ->name('comments/update');
+
 });
