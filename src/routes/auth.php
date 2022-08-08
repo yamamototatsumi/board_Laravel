@@ -12,8 +12,9 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 Route::middleware('guest')->group(function () {
-    Route::get('register', [RegisteredUserController::class, 'create'])
-                ->name('register');
+
+    Route::get('users/insert', [RegisteredUserController::class, 'create'])
+                ->name('users/insert');
 
     Route::post('register', [RegisteredUserController::class, 'store']);
 
