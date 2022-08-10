@@ -9,7 +9,8 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
+
+use App\Http\Requests\RegisterUserRequest;
 
 
 class RegisteredUserController extends Controller
@@ -36,26 +37,14 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'user_id' => str()->uuid()
-        ]);
-
-        event(new Registered($user));
-
-        Auth::login($user);
-
-        return redirect(RouteServiceProvider::HOME);
+    public function store(RegisterUserRequest $request)
+    {   
+      $pass = Hash::make($request->password);
+      $id = str()->uuid();
+      $user = $this->models->insert($request->name,$request->email,$pass,$id);
+      event(new Registered($user));
+      Auth::login($user);
+      return redirect(RouteServiceProvider::HOME);
     } 
 
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class Article extends Model
 {
@@ -14,14 +15,11 @@ class Article extends Model
     protected $dates = ['deleted_at'];
     protected $fillable = ['user_id', 'title', 'content'];
   
-    public function insert(string $title, $id, string $content){
+    public function insert(string $title, string $id,string $content){
+      DB::transaction(function () use ($title, $id, $content) {
       Article::create(['title'=>$title,'content'=>$content,'user_id'=>$id,]);
+      });
     }
-
-  //   public function pageCount() :int{
-  //     $count = Article::where('deleted_at', NULL)->get()->count();
-  //     return $count;
-  // }
 
   public function pagerSystem() :object
   {
@@ -44,24 +42,37 @@ class Article extends Model
       return $data;
   }
 
-  public function detail($id) {
+  public function detail(string $id) :object{
     $data = Article::join('users','articles.user_id', '=', 'users.user_id')
           ->where('articles.id', $id)
           ->first();
     return $data;
   }
 
-  public function put(string $title, string $content, string $id){
-    Article::where('id',$id)
-    ->update(['title'=>$title,'content'=>$content]);
+
+  public function put(object $request){
+    DB::transaction(function () use ($request) {
+      Article::find($request->id)
+      ->fill($request->all())->save();
+    });
   }
 
   public function remove(string $id){
-    Article::where('id',$id)->delete();
+    DB::transaction(function () use ($id) {
+      Article::find($id)->delete();
+    });
   }
 
   public function identification(string $id) :string{
     $data = Article::where('id',$id)->first('user_id');
+    return $data;
+  }
+
+  public function month() :int{
+    $data=Article::whereYear('created_at', date('Y-M'))
+    ->get()
+    ->groupBy('created_at',date('Y-M'))
+    ->count();
     return $data;
   }
 }

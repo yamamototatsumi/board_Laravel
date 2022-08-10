@@ -8,12 +8,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\DB;
 
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens;
     use HasFactory;
     use HasProfilePhoto;
     use Notifiable;
@@ -24,25 +23,14 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var string[]
      */
-    protected $fillable = [
-        'user_id',
-        'name',
-        'email',
-        'password',
-        
-    ];
+    protected $fillable = ['user_id', 'name', 'email', 'password',];
 
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var array
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-        'two_factor_recovery_codes',
-        'two_factor_secret',
-    ];
+    protected $hidden = ['password', 'remember_token', 'two_factor_recovery_codes', 'two_factor_secret'];
 
     /**
      * The attributes that should be cast.
@@ -53,49 +41,34 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
-     */
-    protected $appends = [
-        'profile_photo_url',
-    ];
-    
-
-    public function insert($userId,$email,$pass,$name){
-      var_dump($userId);
-      return User::create(['user_id'=>$userId,'email'=>$email,'password'=>$pass,'name'=>$name,]);
-    }
-    
-    public function check($email){
-      $user = User::where('email', $email)->first('email');
+    public function insert(string $name, string $email, string $pass, string $userId) :object{
+      $user = User::create(['user_id'=>$userId,'email'=>$email,'password'=>$pass,'name'=>$name,]);
       return $user;
     }
-  
-    public function passCheck($email){
-      $user = User::where('email',$email)->first();
-      return $user;
-    }
-  
-    public function adminCheck($user_id) {
-      $user = User::where('user_id',$user_id)->first();
-      return $user;
-    }
-  
-    public function selectName(string $id) {
-      $user = User::where('user_id',$id)->first('name');
-      return $user->name;
-    }
     
-    public function selectUserNameWithPass(string $id) :object{
+    public function selectPass(string $id) :object{
       $user = User::where('user_id',$id)->first();
       return $user;
     }
   
     public function put(string $id,string $name,string $pass){
-      User::where('user_id', $id)
-            ->update(['name' => $name,'password'=>$pass]);
-      // $this->trans($sql,$stmt);
+        DB::transaction(function () use ($id, $name,$pass) {
+          User::where('user_id', $id)
+          ->update(['name' => $name,'password'=>$pass]);
+      });
+    }
+          
+
+    public function month() :int{
+      $data = User::whereYear('created_at', date('Y-M'))
+      ->get()
+      ->groupBy('created_at',date('Y-M'))
+      ->count();
+      return $data;
+    }
+
+    public function indexAdmin() :object{
+      $data = User::get();
+      return $data;
     }
 }

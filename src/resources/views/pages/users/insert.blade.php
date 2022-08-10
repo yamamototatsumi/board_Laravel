@@ -12,7 +12,7 @@
     @csrf
     <div class="form-item">
       <label for="email"></label>
-      <p class="inputform">ログインID：<?php echo $email["email"]?><p>
+      <p class="inputform">ログインID：{{$email["email"]}}<p>
       <p class="error_result"></p>
     </div>
     <div class="form-item">

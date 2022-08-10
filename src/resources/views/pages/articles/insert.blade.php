@@ -7,7 +7,7 @@
 
 @section('content')
 <h1>新規投稿</h1>
-<form id="postform" action="insert" method="POST">
+<form id="postform" action={{ route('articles/insert') }} method="POST">
   @csrf
   <div class="group">
     <input id="text3" type="text" name="title" id="title" class="postform" placeholder="タイトルを入力" required="required">

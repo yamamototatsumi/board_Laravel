@@ -32,7 +32,6 @@
 <div class="commentList">
 
 @foreach ($comment as $row) 
-  {{-- @if(!(isset($row->deleted_at))) --}}
     <div class= 'kiji'><p class ='row row2'>コメント:{{nl2br($row->content)}} </p>
     <p class ='row row4'>投稿者:{{$row->name}}</p>
     <p class ='row row5'>投稿日時":{{$row->created_at}}</p>
@@ -41,7 +40,6 @@
       <a href='/../comments/delete?id={{$row->id}}'>削除</a>
     @endif
     </div>
-  {{-- @endif --}}
 @endforeach
 </div>
 

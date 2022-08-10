@@ -27,6 +27,8 @@ class CommentsController extends Controller
     $data=$this->models->detail($request->id);
     if ($data->user_id === Auth::user()->user_id) {
         return view('pages/comments/update', ['data'=>$data,'request'=>$request]);
+    }else{
+      return view('pages/results/error',['data'=>Error::OTHERS,'link'=>Link::ARTICLES]);
     }
   }
 

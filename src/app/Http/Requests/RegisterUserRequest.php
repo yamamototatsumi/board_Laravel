@@ -3,10 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rules;
 
-class ChangeNameRequest extends FormRequest
+class RegisterUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,7 +25,9 @@ class ChangeNameRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'max:255']
+          'name' => ['required', 'string', 'max:255','min:8'],
+          'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+          'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ];
     }
 }

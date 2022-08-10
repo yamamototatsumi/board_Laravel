@@ -9,8 +9,13 @@
         <!-- Validation Errors -->
         <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
-        <form method="POST" action="{{ route('register') }}">
-            @csrf
+        <div class="card-header">{{ isset($authgroup) ? ucwords($authgroup) : ""}} {{ __('Register') }}</div>
+                    @isset($authgroup)
+                    <form method="POST" action="{{ url("register/$authgroup") }}">
+                    @else
+                    <form method="POST" action="{{ route('register') }}">
+                    @endisset
+                        @csrf
 
             <!-- Name -->
             <div>

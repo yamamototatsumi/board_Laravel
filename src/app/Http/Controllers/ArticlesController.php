@@ -59,16 +59,15 @@ class ArticlesController extends Controller
   
   public function getUpdate(Request $request) {
     $data = $this->models->detail($request->id);
-    // if($data->user_id === Auth::user()->user_id){
-    return view('pages/articles/update',['data'=>$data,'request'=>$request]);
-    // }else{
-    //   $this->data["msg"] = $this->data["errorresult"];
-    //   require_once ( dirname(__FILE__) . $_ENV["USERS_DIRECTRY"] . "error.php"); 
-    // }
+    if($data->user_id === Auth::user()->user_id){
+      return view('pages/articles/update',['data'=>$data,'request'=>$request]);
+    }else{
+      return view('pages/results/error',['data'=>Error::OTHERS,'link'=>Link::ARTICLES]);
+    }
   }
 
   public function update(Request $request) {
-    $this->models->put($request->title, $request->content, $request->id);
+    $this->models->put($request);
     return view('pages/results/finish',['data'=>Success::REGISTER,'link'=>Link::ARTICLES]);
   }
 

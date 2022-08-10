@@ -6,8 +6,8 @@
 @endsection
 
 @section('content')
-<?php
-echo $data ."<br>";
-echo "<a href =".$link.">戻る</a>";
-?>
+
+<h1>{{$data}}</h1> <br>
+<a href ={{$link}}>戻る</a>
+
 @endsection

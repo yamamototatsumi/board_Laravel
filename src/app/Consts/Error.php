@@ -13,7 +13,8 @@ class Error
 
   public const PASSWORD = "現在のパスワードが違います！";
 
-
+  public const OTHERS = "不正なアクセスです";
+  
 }
 
 ?>

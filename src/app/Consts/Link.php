@@ -5,9 +5,9 @@ class Link
 {
   public const TOP  =  "/";
 
-  public const LOGIN = "/users/login";
+  public const LOGIN = "/login";
 
-  public const MYPAGE = "/users/mypage";
+  public const MYPAGE = "/dashboard";
 
   public const ADMIN = "../../../admin";
 

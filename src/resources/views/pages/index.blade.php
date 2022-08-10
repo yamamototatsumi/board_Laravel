@@ -7,12 +7,13 @@
 
 @section('content')
 <div class="mainarea container">
-  <a href="users/login"  class="btn btn-flat"><span>ログイン</span></a><br><br><br>
-  <a href="dashboard" class="btn btn-flat"><span>会員登録</span></a><br><br><br>
-  <a href="../articles/index"  class="btn btn-flat"><span>投稿一覧</span></a><br><br><br>
-  <a href="../articles/insert" class="btn btn-flat"><span>新規投稿</span></a>
 
-  <p class="registerCount">今月の登録者数: php echo $data["usercount"] ?>人</p>
-  <p class="registerCount">今月の投稿記事者数: php echo $data["articlecount"] ?>件</p>
+  <a href= {{ route('login') }} class="btn btn-flat"><span>ログイン</span></a><br><br><br>
+  <a href= {{ route('dashboard') }} class="btn btn-flat"><span>会員登録</span></a><br><br><br>
+  <a href= {{ route('articles/index') }} class="btn btn-flat"><span>投稿一覧</span></a><br><br><br>
+  <a href= {{ route('articles/insert') }} class="btn btn-flat"><span>新規投稿</span></a>
+
+  <p class="registerCount">今月の登録者数: {{$data['user']}}人</p>
+  <p class="registerCount">今月の投稿記事者数: {{$data["article"]}} 件</p>
 @endsection
 

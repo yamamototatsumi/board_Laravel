@@ -8,11 +8,16 @@
 
         <!-- Session Status -->
         <x-auth-session-status class="mb-4" :status="session('status')" />
+        <div class="card-header">{{ isset($authgroup) ? ucwords($authgroup) : ""}} {{ __('Login') }}</div>
 
         <!-- Validation Errors -->
         <x-auth-validation-errors class="mb-4" :errors="$errors" />
-
-        <form method="POST" action="{{ route('login') }}">
+          @isset($authgroup)
+          <form method="POST" action="{{ url("login/$authgroup") }}">
+          @else
+          <form method="POST" action="{{ route('login') }}">
+          @endisset
+              @csrf
             @csrf
 
             <!-- Email Address -->
@@ -54,3 +59,4 @@
         </form>
     </x-auth-card>
 </x-guest-layout>
+
