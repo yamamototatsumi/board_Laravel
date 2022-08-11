@@ -15,6 +15,7 @@ use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\AdminUserDataController;
+use App\Models\Article;
 
 
 /*
@@ -105,22 +106,22 @@ Route::middleware(['auth','verified'])->group(function () {
   Route::get('/dashboard', [UsersController::class, 'getMyPage'])
   ->name('dashboard');
 
-  Route::get('/users/update',[UsersController::class, 'getUpdate'])
+  Route::get('/users/update',[UsersController::class, 'dispUpdate'])
   ->name('users/update');
 
-  Route::get('/articles/detail/{id?}',[ArticlesController::class, 'detail'])
+  Route::get('/articles/detail/{id}',[ArticlesController::class, 'detail'])
   ->name('articles/detail');
 
   Route::get('/articles/insert/',[ArticlesController::class, 'getInsert'])
   ->name('articles/insert');
 
-  Route::get('/articles/update',[ArticlesController::class, 'getUpdate'])
+  Route::post('/articles/update/',[ArticlesController::class, 'dispUpdate'])
   ->name('articles/update');
 
   Route::get('/articles/delete',[ArticlesController::class, 'delete'])
   ->name('articles/delete');
 
-  Route::get('/comments/update',[CommentsController::class, 'getUpdate'])
+  Route::get('/comments/update/{id?}',[CommentsController::class, 'dispUpdate'])
   ->name('comments/delete');
 
   Route::get('/comments/delete',[CommentsController::class, 'delete'])
@@ -132,13 +133,13 @@ Route::middleware(['auth','verified'])->group(function () {
   Route::post('/comments/insert',[CommentsController::class, 'insert'])
   ->name('comments/insert');
 
-  Route::patch('/users/update',[UsersController::class, 'update'])
-  ->middleware('web')->name('users/update');
+  Route::patch('/users',[UsersController::class, 'update'])
+  ->middleware('web')->name('users');
 
-  Route::patch('/articles/update',[ArticlesController::class, 'update'])
-  ->name('articles/update');
+  Route::patch('/articles',[ArticlesController::class, 'update'])
+  ->name('articles');
 
-  Route::patch('/comments/update',[CommentsController::class, 'update'])
+  Route::patch('/comments',[CommentsController::class, 'update'])
   ->name('comments/update');
 });
 

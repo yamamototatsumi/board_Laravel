@@ -3,10 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules;
-use App\Rules\oldpassword;
 
-class UserRequest extends FormRequest
+class ArticlesFormRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,9 +24,7 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-          'name' => ['max:255','min:8','unique:users'],
-          'oldpass' =>  [new oldpassword], 
-          'password' => [Rules\Password::defaults()],
+
         ];
     }
 }

@@ -15,8 +15,13 @@
   <p class ='row row4'>投稿者:{{$data->name}}</p>
   <p class ='row row5'>投稿日時:{{$data->created_at}}</p>
   @if(Auth::user()->user_id === $data->user_id)
-    <a href='update?id={{$request->id}}'>編集</a>
-    <a href='delete?id={{$request->id}}'>削除</a>
+    <form method="POST" action="{{route('articles/update')}}">
+      @csrf
+      <input type="hidden" name="articleToken" value="{{$data->user_id}}">
+      <input type="hidden" name="id" value="{{$data->id}}">
+      <input type="submit" value="編集">
+    </form>
+    <a href=' {{ route('articles/delete', $data->id) }}'>削除</a>
   @endif
   </div>
 </div>
@@ -36,8 +41,8 @@
     <p class ='row row4'>投稿者:{{$row->name}}</p>
     <p class ='row row5'>投稿日時":{{$row->created_at}}</p>
     @if(Auth::user()->user_id === $row['user_id'])
-      <a href='../comments/update?id={{$row->id}}'>編集</a>
-      <a href='/../comments/delete?id={{$row->id}}'>削除</a>
+    <a href=' {{ route('comments/update', $row) }}'>編集</a>
+    <a href=' {{ route('comments/update', $row) }}'>編集</a>
     @endif
     </div>
 @endforeach

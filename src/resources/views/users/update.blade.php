@@ -15,7 +15,7 @@
 @endif
 
 
-<form action={{ route('users/update') }} method="POST">
+<form action={{ route('users') }} method="POST">
   @csrf
   @method('PATCH')
   <h1>ユーザー情報変更</h1>
@@ -31,6 +31,7 @@
   <p>新しいパスワード</p>
   <input type= "password" id="newpass" name="pass" class="ca_inputform"><br>
   <p class="change_acount_error_result">半角英数10文字以上</p>
+  <input type="hidden" value="{{$id}}" name="id">
   <input type="submit" value="変更する" id="change_acount_submit" disabled>
 </form>
 <script src="/js/changeAcount.js"></script>

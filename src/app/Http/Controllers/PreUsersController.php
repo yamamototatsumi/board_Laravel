@@ -19,12 +19,12 @@ class PreUsersController extends Controller
 
   public function getSignUp()
   {
-      return view('pages/pre_users/signup');
+      return view('pre_users/signup');
   }
 
   public function getTopPage()
   {
-      return view('pages/index');
+      return view('index');
   }
 
   public function insert(Request $request)
@@ -35,16 +35,16 @@ class PreUsersController extends Controller
       $this->models->insert($userId,$request->input('email'));
       $this->sendmail($userId);
       var_dump($userId);
-      return view('pages/pre_users/insert',['data'=>Success::MAIL,'userId'=>$userId]);
+      return view('pre_users/insert',['data'=>Success::MAIL,'userId'=>$userId]);
     }else{
-      return view('pages/results/error',['data'=>Error::ALRADY,'link'=>Link::TOP]);
+      return view('results/error',['data'=>Error::ALRADY,'link'=>Link::TOP]);
     }
   }
 
   public function sendMail($userId)
   {
       $email = 'hello@example.com';
-      Mail::send('pages/pre_users/mail', [
+      Mail::send('pre_users/mail', [
           'userId' => $userId
       ], function ($message) use ($email) {
           $message->to($email)

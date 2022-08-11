@@ -19,7 +19,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public const HOME = '/dashboard';
 
-    public const ERROR = '/pages/results/error';
+    public const ERROR = '/results/error';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.

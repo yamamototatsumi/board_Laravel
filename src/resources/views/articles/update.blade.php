@@ -13,14 +13,14 @@
     <p>{{nl2br($data->content)}}</p>
   </div>
   <div class="hensyuu">
-    <form action={{ route('articles/update') }} method="POST">
+    <form action={{ route('articles') }} method="POST">
       @csrf
       @method('PATCH')
       <label>タイトル：</label>
       <input type="text" name="title" id="title" class="articleform"><br>
       <label>　　内容:</label>
       <textarea name="content" id="main" class="articleform"></textarea><br>
-      <?php echo "<input type='hidden' name=id value=".$request->id.">"; ?>
+      <?php echo "<input type='hidden' name = id value=".$data->id.">"; ?>
       <input type="submit" value="編集する" id="submit" disabled>
     </form>
   </div>

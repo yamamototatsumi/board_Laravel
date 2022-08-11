@@ -12,7 +12,7 @@
     {{nl2br($data->content)}}
   </div>
   <div class="hensyuu">
-    <form action={{ route('comments/update') }} method="POST">
+    <form action={{ route('comments') }} method="POST">
       @csrf
       @method('PATCH')
       <label>新しいコメント:</label>

@@ -18,7 +18,7 @@ class AdminUserDataController extends Controller
     public function index()
     {
         $data = $this->models->indexAdmin();
-        return view('pages/admin/user', ['data'=>$data]);
+        return view('admin/user', ['data'=>$data]);
     }
 
 

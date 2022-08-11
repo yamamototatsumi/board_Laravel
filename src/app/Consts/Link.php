@@ -9,7 +9,7 @@ class Link
 
   public const MYPAGE = "/dashboard";
 
-  public const ADMIN = "../../../admin";
+  public const ADMIN = "/admin";
 
   public const LOGOUT = "/users/logout";
 
@@ -19,5 +19,7 @@ class Link
 
   public const COMMENTS = "/articles/detail?id=";
 }
+
+
 
 ?>

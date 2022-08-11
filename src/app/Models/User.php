@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -51,10 +51,10 @@ class User extends Authenticatable implements MustVerifyEmail
       return $user;
     }
   
-    public function put(string $id,string $name,string $pass){
-        DB::transaction(function () use ($id, $name,$pass) {
-          User::where('user_id', $id)
-          ->update(['name' => $name,'password'=>$pass]);
+    public function put($request){
+        DB::transaction(function () use ($request) {
+          User::where('user_id', $request->id)
+          ->update(['name' => $request->name,'password'=>Hash::make($request->pass)]);
       });
     }
           

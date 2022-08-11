@@ -42,13 +42,12 @@ class Article extends Model
       return $data;
   }
 
-  public function detail(string $id) :object{
+  public function detail($id) :object{
     $data = Article::join('users','articles.user_id', '=', 'users.user_id')
           ->where('articles.id', $id)
-          ->first();
+          ->first(['articles.*','name']);
     return $data;
   }
-
 
   public function put(object $request){
     DB::transaction(function () use ($request) {
