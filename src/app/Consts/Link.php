@@ -18,6 +18,9 @@ class Link
   public const ARTICLES = "/articles/index";
 
   public const COMMENTS = "/articles/detail?id=";
+
+  public const MAXVIEW = 10;
+
 }
 
 

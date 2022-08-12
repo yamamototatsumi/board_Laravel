@@ -41,13 +41,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+
+
     public function insert(string $name, string $email, string $pass, string $userId) :object{
       $user = User::create(['user_id'=>$userId,'email'=>$email,'password'=>$pass,'name'=>$name,]);
-      return $user;
-    }
-    
-    public function selectPass(string $id) :object{
-      $user = User::where('user_id',$id)->first();
       return $user;
     }
   
@@ -58,13 +55,8 @@ class User extends Authenticatable implements MustVerifyEmail
       });
     }
           
-
-    public function month() :int{
-      $data = User::whereYear('created_at', date('Y-M'))
-      ->get()
-      ->groupBy('created_at',date('Y-M'))
-      ->count();
-      return $data;
+    public function scopeMonth($query,$date) {
+      return $query->whereYear('created_at', $date);
     }
 
     public function indexAdmin() :object{

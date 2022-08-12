@@ -6,25 +6,14 @@ use App\Models\User;
 use App\Consts\Link;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Article;
+use Symfony\Component\HttpFoundation\Request;
 use App\Http\Requests\UserRequest;
 
 class UsersController extends Controller
 {
-  public function __construct()
-  {
-    $this->models = new User();
-
-    $this->articleModels = new Article();
-  }
 
   public function getMyPage() {
     return view('dashboard');
-  }
-
-  public function getTopPage() {
-    $data['user'] = $this->models->month();
-    $data['article'] = $this->articleModels->month();
-    return view('index',['data'=>$data]);
   }
 
   public function dispUpdate(){
@@ -32,7 +21,20 @@ class UsersController extends Controller
   }
 
   public function update(UserRequest $request) {
-    $this->models->put($request);
+    $this->user->put($request);
     return view('results/finish',['data'=>__("messages.success.name"), 'link'=>Link::MYPAGE]);
   }
+
+  public function getTopPage(){
+    //userの当月カウントをするスコープへ飛ばす
+    $userCount = User::Month(date('Y-M'))
+    ->get()->groupBy('created_at',date('Y-M'))
+    ->count();
+    //articleの当月カウントをするスコープへ飛ばす
+    $articleCount = Article::Month(date('Y-M'))
+    ->get()->groupBy('created_at',date('Y-M'))
+    ->count();
+    return view('index',['article'=>$articleCount,'user'=>$userCount]);
+  }
+  
 }

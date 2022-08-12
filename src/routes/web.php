@@ -118,29 +118,29 @@ Route::middleware(['auth','verified'])->group(function () {
   Route::post('/articles/update/',[ArticlesController::class, 'dispUpdate'])
   ->name('articles/update');
 
-  Route::get('/articles/delete',[ArticlesController::class, 'delete'])
-  ->name('articles/delete');
+  Route::post('/comments/update/',[CommentsController::class, 'dispUpdate'])
+  ->name('comments/update');
 
-  Route::get('/comments/update/{id?}',[CommentsController::class, 'dispUpdate'])
-  ->name('comments/delete');
-
-  Route::get('/comments/delete',[CommentsController::class, 'delete'])
+  Route::delete('/comments',[CommentsController::class, 'delete'])
   ->name('comments/delete');
 
   Route::post('/articles/insert',[ArticlesController::class, 'insert'])
-  ->name('articles/insert');
+  ->middleware('transaction')->name('articles/insert');
 
   Route::post('/comments/insert',[CommentsController::class, 'insert'])
-  ->name('comments/insert');
+  ->middleware('transaction')->name('comments/insert');
 
   Route::patch('/users',[UsersController::class, 'update'])
-  ->middleware('web')->name('users');
+  ->middleware('web','transaction')->name('users');
 
   Route::patch('/articles',[ArticlesController::class, 'update'])
-  ->name('articles');
+  ->middleware('transaction')->name('articles');
 
   Route::patch('/comments',[CommentsController::class, 'update'])
-  ->name('comments/update');
+  ->middleware('transaction')->name('comments');
+
+  Route::delete('articles',[ArticlesController::class, 'delete'])
+  ->middleware('transaction')->name('articles/delete');
 });
 
 //ここからアドミン追加
