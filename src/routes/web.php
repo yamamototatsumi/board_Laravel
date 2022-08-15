@@ -121,9 +121,6 @@ Route::middleware(['auth','verified'])->group(function () {
   Route::post('/comments/update/',[CommentsController::class, 'dispUpdate'])
   ->name('comments/update');
 
-  Route::delete('/comments',[CommentsController::class, 'delete'])
-  ->name('comments/delete');
-
   Route::post('/articles/insert',[ArticlesController::class, 'insert'])
   ->middleware('transaction')->name('articles/insert');
 
@@ -138,6 +135,9 @@ Route::middleware(['auth','verified'])->group(function () {
 
   Route::patch('/comments',[CommentsController::class, 'update'])
   ->middleware('transaction')->name('comments');
+
+  Route::delete('/comments',[CommentsController::class, 'delete'])
+  ->name('comments/delete');
 
   Route::delete('articles',[ArticlesController::class, 'delete'])
   ->middleware('transaction')->name('articles/delete');
