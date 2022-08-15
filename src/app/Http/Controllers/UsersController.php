@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Article;
 use Symfony\Component\HttpFoundation\Request;
 use App\Http\Requests\UserRequest;
-
 class UsersController extends Controller
 {
 

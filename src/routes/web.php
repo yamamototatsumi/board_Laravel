@@ -15,6 +15,17 @@ use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\AdminUserDataController;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\RegisterUserRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Auth\Events\Registered;
+use App\Models\User;
+use Illuminate\Support\Str;
+
+
 use App\Models\Article;
 
 
@@ -32,6 +43,16 @@ use App\Models\Article;
 //誰でも閲覧可能
 
 Route::get('/',[UsersController::class, 'getTopPage']);
+
+// Route::get('/', function () {
+//   // return view('welcome');
+//   $user = Auth::loginUsingId(4);
+  
+//   $token = createToken('test');
+
+//   dd($token);
+// });
+
 
 Route::get('/articles/index',[ArticlesController::class, 'index'])
 ->name('articles/index');
@@ -75,7 +96,7 @@ Route::middleware('guest')->group(function () {
 
 //ログインユーザーのみ閲覧可能
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth:api')->group(function () {
 
   Route::get('verify-email', [EmailVerificationPromptController::class, '__invoke'])
   ->name('verification.notice');
@@ -100,7 +121,7 @@ Route::middleware('auth')->group(function () {
 
 
 //認証済みユーザーのみ閲覧可能
-
+”
 Route::middleware(['auth','verified'])->group(function () {
 
   Route::get('/dashboard', [UsersController::class, 'getMyPage'])
@@ -121,9 +142,6 @@ Route::middleware(['auth','verified'])->group(function () {
   Route::post('/comments/update/',[CommentsController::class, 'dispUpdate'])
   ->name('comments/update');
 
-  Route::delete('/comments',[CommentsController::class, 'delete'])
-  ->name('comments/delete');
-
   Route::post('/articles/insert',[ArticlesController::class, 'insert'])
   ->middleware('transaction')->name('articles/insert');
 
@@ -138,6 +156,9 @@ Route::middleware(['auth','verified'])->group(function () {
 
   Route::patch('/comments',[CommentsController::class, 'update'])
   ->middleware('transaction')->name('comments');
+
+  Route::delete('/comments',[CommentsController::class, 'delete'])
+  ->name('comments/delete');
 
   Route::delete('articles',[ArticlesController::class, 'delete'])
   ->middleware('transaction')->name('articles/delete');

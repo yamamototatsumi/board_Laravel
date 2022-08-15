@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -10,12 +11,13 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Laravel\Sanctum\NewAccessToken;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory;
+    use HasApiTokens, HasFactory, Notifiable;
     use HasProfilePhoto;
-    use Notifiable;
     use TwoFactorAuthenticatable;
 
     /**
@@ -23,7 +25,7 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var string[]
      */
-    protected $fillable = ['user_id', 'name', 'email', 'password',];
+    protected $fillable = ['user_id', 'name', 'email', 'password','api_token'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -39,6 +41,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'created_at' => 'datetime'
     ];
 
 
@@ -63,4 +66,5 @@ class User extends Authenticatable implements MustVerifyEmail
       $data = User::get();
       return $data;
     }
+
 }
