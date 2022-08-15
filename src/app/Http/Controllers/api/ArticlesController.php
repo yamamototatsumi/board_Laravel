@@ -23,10 +23,12 @@ class ArticlesController extends Controller
   public function detail(Request $request, int $id) {
     $articleJson = $this->article->detail($id)->first()->toJson(JSON_PRETTY_PRINT);
     $commentJson = $this->comment->index($id)->get()->toJson(JSON_PRETTY_PRINT);
-    $datas = json_decode($articleJson);
+    // dd($articleJson);
+    $datas = json_decode($articleJson,false);
     $comments = json_decode($commentJson);
-var_dump(Auth::user());
-exit();
-    return view('articles/detail',['data'=>$datas,'comment'=>$comments,'request'=>$request,'user_id'=>Auth::user()->user_id]);
+    // dd($comments);
+
+    return view('articles/detail',['data'=>$datas,'comment'=>$comments,'request'=>$request,]);
+    // 'user_id'=>Auth::user()->user_id
   }
 }

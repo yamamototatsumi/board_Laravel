@@ -121,7 +121,7 @@ Route::middleware('auth:api')->group(function () {
 
 
 //認証済みユーザーのみ閲覧可能
-
+”
 Route::middleware(['auth','verified'])->group(function () {
 
   Route::get('/dashboard', [UsersController::class, 'getMyPage'])

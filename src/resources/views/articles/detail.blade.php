@@ -14,7 +14,7 @@
   <p class ='row row3'>内容:{{nl2br($data->content)}}</p>
   <p class ='row row4'>投稿者:{{$data->user->name}}</p>
   <p class ='row row5'>投稿日時:{{$data->created_at}}</p>
-  @if($user_id === $data->user_id)
+  {{-- @if(Auth::user()->user_id === $data->user_id) --}}
     <form method="POST" action="{{route('articles/update')}}">
       @csrf
       <input type="hidden" name="articleToken" value="{{$data->user_id}}">
@@ -29,7 +29,7 @@
       <input type="hidden" name="id" value="{{$data->id}}">
       <input type="submit" value="削除">
     </form>
-  @endif
+  {{-- @endif --}}
   </div>
 </div>
 <div class="comment">
@@ -45,9 +45,9 @@
 
 @foreach ($comment as $row) 
     <div class= 'kiji'><p class ='row row2'>コメント:{{nl2br($row->content)}} </p>
-    <p class ='row row4'>投稿者:{{$row->article->user->name}}</p>
+    {{-- <p class ='row row4'>投稿者:{{$row->article->user->name}}</p> --}}
     <p class ='row row5'>投稿日時":{{$row->created_at}}</p>
-    @if(Auth::user()->user_id === $row['user_id'])
+    {{-- @if(Auth::user()->user_id === $row['user_id']) --}}
 
     <form method="POST" action="{{route('comments/update')}}">
       @csrf
@@ -64,7 +64,7 @@
       <input type="submit" value="編集">
     </form>
 
-    @endif
+    {{-- @endif --}}
     </div>
 @endforeach
 </div>
