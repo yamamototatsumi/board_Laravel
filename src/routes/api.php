@@ -6,6 +6,7 @@ use App\Http\Controllers\api\UsersController;
 use App\Http\Controllers\api\ArticlesController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\api\AuthController;
+use App\Http\Controllers\api\CommentsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,70 +18,42 @@ use App\Http\Controllers\api\AuthController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::get('/',[AuthController::class, 'authenticate']);
+// Route::get('/',[AuthController::class, 'authenticate']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Route::get('login', [AuthenticatedSessionController::class, 'create'])
-// ->name('login');
-
-// Route::post('login', [AuthenticatedSessionController::class, 'store'])
-// ->name('login');
-
-Route::get('/users', [UsersController::class, 'getUsersAll']);
-
-Route::get('/articles', [ArticlesController::class, 'index'])
-->name('api/articles');
-
-Route::get('/articles/detail/{id}',[ArticlesController::class, 'detail'])
-->name('api/articles/detail');
-
-Route::post('/authenticate', [AuthController::class, 'authenticate']);
-
-  Route::post('/articles/update/',[ArticlesController::class, 'dispUpdate'])
-  ->name('articles/update');
-
-  Route::post('/articles/insert',[ArticlesController::class, 'insert'])
-  ->middleware('transaction')->name('articles/insert');
-
-//認証済みユーザーのみ閲覧可能
-
-Route::middleware(['auth','verified'])->group(function () {
-
-  // Route::get('/dashboard', [UsersController::class, 'getMyPage'])
-  // ->name('dashboard');
-
-  // Route::get('/users/update',[UsersController::class, 'dispUpdate'])
-  // ->name('users/update');
 
 
 
-  // Route::get('/articles/insert/',[ArticlesController::class, 'getInsert'])
-  // ->name('articles/insert');
 
-  // Route::post('/comments/update/',[CommentsController::class, 'dispUpdate'])
-  // ->name('comments/update');
+//Usersのルート
+Route::get('/users', [UsersController::class, 'index']);
+
+Route::post('/users', [UsersController::class, 'insert']);
 
 
 
-  // Route::post('/comments/insert',[CommentsController::class, 'insert'])
-  // ->middleware('transaction')->name('comments/insert');
 
-  // Route::patch('/users',[UsersController::class, 'update'])
-  // ->middleware('web','transaction')->name('users');
 
-  // Route::patch('/articles',[ArticlesController::class, 'update'])
-  // ->middleware('transaction')->name('articles');
+//Articlesのルート
+Route::get('/articles', [ArticlesController::class, 'index']);
 
-  // Route::patch('/comments',[CommentsController::class, 'update'])
-  // ->middleware('transaction')->name('comments');
+Route::get('/articles/detail/{id}',[ArticlesController::class, 'detail']);
 
-  // Route::delete('/comments',[CommentsController::class, 'delete'])
-  // ->name('comments/delete');
+Route::post('/articles',[ArticlesController::class, 'insert']);
 
-  // Route::delete('articles',[ArticlesController::class, 'delete'])
-  // ->middleware('transaction')->name('articles/delete');
-});
+Route::patch('/articles',[ArticlesController::class, 'update']);
 
+Route::delete('/articles',[ArticlesController::class, 'delete']);
+
+
+//Commentsのルート
+Route::get('/comments/{id}',[CommentsController::class, 'index']);
+
+Route::post('/comments',[CommentsController::class, 'insert']);
+
+Route::patch('/comments',[CommentsController::class, 'update']);
+
+Route::delete('/comments',[CommentsController::class, 'delete']);

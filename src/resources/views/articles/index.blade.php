@@ -25,5 +25,5 @@
       </div>
   @endforeach
   </ul>
-  {{-- {{ $data->links()}} --}}
+  {{ $data->links()}}
 @endsection

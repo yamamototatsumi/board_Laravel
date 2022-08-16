@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Article;
-use App\Models\Comment;
-use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\insertArticleRequest;
 use App\Consts\Link;
@@ -17,8 +14,6 @@ use App\Http\Requests\ArticleIdentificationRequest;
 
 class ArticlesController extends Controller
 {
-
-
   public function index() {
     $datas = $this->article->index()->orderby('id','desc')
     ->paginate(Link::MAXVIEW);
@@ -57,7 +52,6 @@ class ArticlesController extends Controller
     return view('articles/detail',['data'=>$data,'comment'=>$comment,'request'=>$request]);
   }
 
-  
   public function dispUpdate(ArticleIdentificationRequest $request) {
     $datas = $this->article->detail($request->id)->get();
     foreach ($datas as $data) {
