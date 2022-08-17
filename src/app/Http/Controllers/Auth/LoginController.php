@@ -7,6 +7,9 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use \Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Str;
 
 class LoginController extends Controller
 {
@@ -79,4 +82,54 @@ class LoginController extends Controller
 
         return back()->withInput($request->only('email', 'remember'));
     }
+
+
+
+
+
+
+
+
+
+
+    public function dispLogin()
+    {
+        return view('auth.login');
+    }
+
+
+
+
+    public function login(Request $request) {
+
+      $credentials = $request->only(['email', 'password']); //requestからemail,passwordだけ取ってくる。
+      $guard = $request->guard;
+
+      //attempt()でユーザを認証する。
+      if(Auth::guard($guard)->attempt($credentials)) {
+
+          //ログインをする度にapi_tokenのアップデート
+          $user_info = User::whereEmail($request->email)->first(); //userのメールアドレスの取得
+          $user_id = $user_info->id;
+
+          //usersテーブルから対象userを見つけてapi_tokenを再生成する。
+          $user = User::find($user_id);
+          // $user->api_token = Str::random(60);
+          // $user->save();
+
+
+          // $request->session()->regenerate();
+
+          //loginが成功するとtokenと共に情報をjsonで返す。
+          return response()->json([
+              'token' => $user->api_token,
+              'id' => $user->id,
+              'name' => $user->name,
+              'email' => $user->email,
+          ], Response::HTTP_OK);
+      }
+
+      return 'login failed!';
+  }
+
 }

@@ -17,11 +17,13 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->char('user_id',64)->unique()->nullable();
+            $table->string('api_token', 80)->unique()->nullable()->default(null);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->boolean('is_admin')->default(false)->comment('trueだとadmin権限を持つ');
             $table->rememberToken();
             $table->timestamps();
+
         });
     }
 

@@ -7,6 +7,8 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Illuminate\Support\Str;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -28,6 +30,15 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
+      $user_info = User::whereEmail($request->email)->first(); //userのメールアドレスの取得
+      $user_id = $user_info->id;
+
+      //usersテーブルから対象userを見つけてapi_tokenを再生成する。
+      $user = User::find($user_id);
+      $user->api_token = Str::random(60);
+      $user->save();
+      // $token = $request->bearerToken();
+      // dd($token);
         $request->authenticate();
 
         $request->session()->regenerate();

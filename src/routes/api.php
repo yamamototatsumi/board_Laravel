@@ -7,7 +7,7 @@ use App\Http\Controllers\api\ArticlesController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\CommentsController;
-
+use App\Http\Controllers\Auth\LoginController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,11 +20,28 @@ use App\Http\Controllers\api\CommentsController;
 */
 // Route::get('/',[AuthController::class, 'authenticate']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+  return $request->user();
 });
 
 
+Route::middleware('auth:api', 'admin_auth')->group(function(){
+  Route::get('/admin', function(){
+      return 'you are admin user!';
+    });
+});
+
+
+// user権限、admin権限のあるユーザの操作
+Route::middleware('auth:api')->group(function(){
+  
+  Route::get('/user', function(){
+      return 'you are member user!';
+  });
+
+});
+
+Route::post('login', [LoginController::class, 'login']);
 
 
 

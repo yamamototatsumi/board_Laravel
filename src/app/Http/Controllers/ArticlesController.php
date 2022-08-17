@@ -44,6 +44,8 @@ class ArticlesController extends Controller
   }
 
   public function detail(Request $request, int $id) {
+    $token = $request->bearerToken();
+    dd($token);
     $datas = $this->article->detail($id)->get();
       foreach ($datas as $data) {
         $data->user;

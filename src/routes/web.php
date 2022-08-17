@@ -15,6 +15,7 @@ use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\AdminUserDataController;
+use Symfony\Component\HttpFoundation\Request;
 use App\Models\Article;
 
 
@@ -31,6 +32,7 @@ use App\Models\Article;
 
 //誰でも閲覧可能
 
+
 Route::get('/',[UsersController::class, 'getTopPage']);
 
 Route::get('/articles/index',[ArticlesController::class, 'index'])
@@ -39,6 +41,9 @@ Route::get('/articles/index',[ArticlesController::class, 'index'])
 Route::post('articles/search',[ArticlesController::class, 'search'])
 ->name('articles/search');
 
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+  return "いけてます";
+});
 
 
 
