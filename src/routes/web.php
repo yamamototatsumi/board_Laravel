@@ -57,8 +57,11 @@ Route::middleware('guest')->group(function () {
   Route::post('register', [RegisteredUserController::class, 'store'])
   ->name('users/insert');
 
-  Route::get('login', [AuthenticatedSessionController::class, 'create'])
+  Route::post('login', [LoginController::class, 'dispLogin'])
   ->name('login');
+
+  // Route::get('login', [AuthenticatedSessionController::class, 'create'])
+  // ->name('login');
 
   Route::post('login', [AuthenticatedSessionController::class, 'store'])
   ->name('login');
@@ -135,7 +138,7 @@ Route::middleware(['auth','verified'])->group(function () {
   Route::patch('/users',[UsersController::class, 'update'])
   ->middleware('web','transaction')->name('users');
 
-  Route::patch('/articles',[ArticlesController::class, 'update'])
+  Route::patch('/articles/{article}',[ArticlesController::class, 'update'])
   ->middleware('transaction')->name('articles');
 
   Route::patch('/comments',[CommentsController::class, 'update'])

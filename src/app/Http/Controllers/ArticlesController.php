@@ -7,6 +7,7 @@ use App\Http\Requests\insertArticleRequest;
 use App\Consts\Link;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ArticleIdentificationRequest;
+use App\Models\Article;
 
 
 
@@ -44,8 +45,6 @@ class ArticlesController extends Controller
   }
 
   public function detail(Request $request, int $id) {
-    $token = $request->bearerToken();
-    dd($token);
     $datas = $this->article->detail($id)->get();
       foreach ($datas as $data) {
         $data->user;
@@ -62,8 +61,10 @@ class ArticlesController extends Controller
       return view('articles/update',['data'=>$data,'request'=>$request,]);
   }
 
-  public function update(Request $request) {
-    $this->article->put($request);
+  public function update(Article $article, Request $request) {
+    $this->authorize('update', $article);
+    Article::find($request->id)->fill($request->all())->save();
+    // $this->article->put($request);
     return view('results/finish',['data'=>__("messages.success.register"),'link'=>Link::ARTICLES]);
   }
 

@@ -24,14 +24,16 @@ class CommentsController extends Controller
     ], 201);
   }
 
-  public function update(Request $request) {
+  public function update(Request $request, Comment $comment) {
+    $this->authorize('update', $comment);
     Comment::find($request->id)->fill(['content'=>$request->content])->save();
     return response()->json([
       "message" => "更新完了"
     ], 201);
   }
 
-  public function delete(Request $request) {
+  public function delete(Request $request, Comment $comment) {
+    $this->authorize('update', $comment);
     Comment::find($request->id)->delete();
     return response()->json([
       "message" => "削除完了"

@@ -31,14 +31,17 @@ class ArticlesController extends Controller
   ], 201);
     }
 
-    public function update(Request $request) {
-        Article::find($request->id)->fill($request->all())->save();
-        return response()->json([
-          "message" => "更新完了"
-    ], 201);
-    }
+    public function update(Request $request, Article $article) {
+      $this->authorize('update', $article);
+      Article::find($request->id)->fill($request->all())->save();
+      return response()->json([
+        "message" => "更新完了"
+  ], 201);
+  }
 
-    public function delete(Request $request) {
+
+    public function delete(Request $request, Article $article) {
+      $this->authorize('update', $article);
       Article::find($request->id)->delete();
       return response()->json([
         "message" => "削除完了"

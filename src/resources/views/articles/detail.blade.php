@@ -15,7 +15,7 @@
   <p class ='row row4'>投稿者:{{$data->user->name}}</p>
   <p class ='row row5'>投稿日時:{{$data->created_at}}</p>
   @if(Auth::user()->user_id === $data->user_id)
-    <form method="POST" action="{{route('articles/update')}}">
+    <form method="POST" action="{{route('articles/update') }}">
       @csrf
       <input type="hidden" name="articleToken" value="{{$data->user_id}}">
       <input type="hidden" name="id" value="{{$data->id}}">

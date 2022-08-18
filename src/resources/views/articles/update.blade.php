@@ -13,7 +13,7 @@
     <p>{{nl2br($data->content)}}</p>
   </div>
   <div class="hensyuu">
-    <form action={{ route('articles') }} method="POST">
+    <form action={{ route('articles', $data) }} method="POST">
       @csrf
       @method('PATCH')
       <label>タイトル：</label>

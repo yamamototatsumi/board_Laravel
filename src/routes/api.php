@@ -32,12 +32,44 @@ Route::middleware('auth:api', 'admin_auth')->group(function(){
 });
 
 
-// user権限、admin権限のあるユーザの操作
+//////誰でもアクセスできる
+Route::get('/articles', [ArticlesController::class, 'index']);
+
+Route::get('/articles/detail/{article}',[ArticlesController::class, 'detail']);
+
+
+
+///// user権限、admin権限のあるユーザの操作
 Route::middleware('auth:api')->group(function(){
   
-  Route::get('/user', function(){
-      return 'you are member user!';
-  });
+
+//Articlesのルート
+
+Route::post('/articles',[ArticlesController::class, 'insert']);
+
+Route::patch('/articles/{article}',[ArticlesController::class, 'update']);
+
+Route::delete('/articles/{article}',[ArticlesController::class, 'delete']);
+
+
+
+//Usersのルート
+Route::get('/users', [UsersController::class, 'index'])->middleware('admin_auth');
+
+Route::post('/users', [UsersController::class, 'insert']);
+
+Route::patch('/users', [UsersController::class, 'update']);
+
+
+
+//Commentsのルート
+Route::get('/comments/{comment}',[CommentsController::class, 'index']);
+
+Route::post('/comments',[CommentsController::class, 'insert']);
+
+Route::patch('/comments/{comment}',[CommentsController::class, 'update']);
+
+Route::delete('/comments/{comment}',[CommentsController::class, 'delete']);
 
 });
 
@@ -45,32 +77,3 @@ Route::post('login', [LoginController::class, 'login']);
 
 
 
-//Usersのルート
-Route::get('/users', [UsersController::class, 'index']);
-
-Route::post('/users', [UsersController::class, 'insert']);
-
-
-
-
-
-//Articlesのルート
-Route::get('/articles', [ArticlesController::class, 'index']);
-
-Route::get('/articles/detail/{id}',[ArticlesController::class, 'detail']);
-
-Route::post('/articles',[ArticlesController::class, 'insert']);
-
-Route::patch('/articles',[ArticlesController::class, 'update']);
-
-Route::delete('/articles',[ArticlesController::class, 'delete']);
-
-
-//Commentsのルート
-Route::get('/comments/{id}',[CommentsController::class, 'index']);
-
-Route::post('/comments',[CommentsController::class, 'insert']);
-
-Route::patch('/comments',[CommentsController::class, 'update']);
-
-Route::delete('/comments',[CommentsController::class, 'delete']);
